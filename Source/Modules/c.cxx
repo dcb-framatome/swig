@@ -1630,7 +1630,7 @@ ready:
     String *access = Getattr(n, "access");
     if (access && Cmp(access, "private") != 0) {
       Printv(s, "if (strcmp(object->typenames[0], \"", classname, "\") == 0) {\n", NIL);
-      Printv(s, "if (object->obj)\ndelete (", classtype, " *) (object->obj);\n", NIL);
+      Printv(s, "if (object->own && object->obj)\ndelete (", classtype, " *) (object->obj);\n", NIL);
       Printf(s, "}\n");
     }
   }
@@ -1689,6 +1689,7 @@ ready:
       Printf(code, "result = SWIG_create_object();\n");
     }
     Printv(code, "result->obj = (void*) new ", Getattr(klass, "classtype"), arg_lnames, ";\n", NIL);
+    Printf(code, "result->own = 1;\n");
 
     Setattr(n, "wrap:action", code);
     functionWrapper(n);
@@ -1749,7 +1750,8 @@ ready:
     else {
       Printf(code, "result = SWIG_create_object();\n");
     }
-    Printv(code, "result->obj = (void*) new ", classname, "((", classname, " const &)*arg1);\n", NIL);    
+    Printv(code, "result->obj = (void*) new ", classname, "((", classname, " const &)*arg1);\n", NIL);
+    Printf(code, "result->own = 1;\n");
 
     Setattr(n, "wrap:action", code);    
     functionWrapper(n);
@@ -1805,7 +1807,7 @@ ready:
       Printf(code, "SWIG_destroy_object(carg1);");
     }
     else {
-      Printv(code, "if (carg1->obj)\ndelete (", classtype, " *) (carg1->obj);\n", NIL);
+      Printv(code, "if (carg1->own && carg1->obj)\ndelete (", classtype, " *) (carg1->obj);\n", NIL);
     }
     
     Setattr(n, "wrap:action", code);

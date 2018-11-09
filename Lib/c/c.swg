@@ -337,6 +337,7 @@ explicit_same_type_unconsted_all_primitive_types_but_void(cppouttype);
   
 %insert("runtime") %{
 typedef struct {
+  int own;
   void *obj;
   const char **typenames;
 } SwigObj;
@@ -344,6 +345,7 @@ typedef struct {
 
 %insert("proxy_header") %{
 typedef struct {
+  int own;
   void *obj;
   const char **typenames;
 } SwigObj;
@@ -355,6 +357,7 @@ typedef struct {
     
 %insert("runtime") %{
 typedef struct {
+  int own;
   void *obj;
 } SwigObj;
 
@@ -369,6 +372,7 @@ SWIGEXPORTC int SWIG_exit(int code) { exit(code); }
 
 %insert("proxy_header") %{
 typedef struct {
+  int own;
   void *obj;
 } SwigObj;
 %}
