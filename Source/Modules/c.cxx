@@ -322,6 +322,7 @@ public:
     Printf(s, "result = (SwigObj *) malloc(sizeof(SwigObj));\n");
     Printf(s, "result->obj = 0;\n");
     Printf(s, "result->own = 0;\n");
+    Printf(s, "result->typenames = 0;\n");
   }
 
   /* ---------------------------------------------------------------------
